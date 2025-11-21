@@ -57,6 +57,9 @@ export default function BookData({ book }: BookProps) {
 
   const [showSkeleton, setShowSkeleton] = useState(true);
 
+  type FontSize = "sm" | "med" | "lg" | "xl";
+  const handleFontChange = (size: FontSize) => {};
+
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(false), 400);
     return () => clearTimeout(timer);
@@ -125,7 +128,7 @@ export default function BookData({ book }: BookProps) {
   if (showSkeleton) {
     return (
       <>
-        <Sidebar />
+        <Sidebar onChangeFont={handleFontChange} />
         <div className="wrapper">
           <Search />
           <div className="row">
@@ -210,7 +213,7 @@ export default function BookData({ book }: BookProps) {
 
   return (
     <>
-      <Sidebar />
+      <Sidebar onChangeFont={handleFontChange} />
       <div className="wrapper">
         <Search />
         <div className="row">

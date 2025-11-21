@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "@/Redux/StoreProvider";
+import AuthModal from "@/components/AuthModal";
+import AuthListener from "@/components/AuthListener";
+import AuthGate from "@/components/AuthGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <StoreProvider>
+          <AuthListener />
+          <AuthGate>{children}</AuthGate>
+          <AuthModal />
+        </StoreProvider>
       </body>
     </html>
   );

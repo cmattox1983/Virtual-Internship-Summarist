@@ -1,0 +1,61 @@
+.numbers {
+  background-color: #d7e9ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  padding-bottom: 40px;
+  border-radius: 12px;
+}
+
+.numbers__wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.numbers__icon {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 4px;
+}
+
+.numbers__icon svg {
+  color: #0365f2;
+  width: 48px;
+  height: 48px;
+}
+
+.numbers__star--icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.numbers__title {
+  font-size: 40px;
+  color: #032b41;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.numbers__sub--title {
+  color: #394547;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .numbers__wrapper {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .numbers__title {
+    font-size: 32px;
+  }
+
+  .numbers__sub--title {
+    font-size: 14px;
+  }
+}

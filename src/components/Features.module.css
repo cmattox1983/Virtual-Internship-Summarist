@@ -1,0 +1,145 @@
+.features__wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 96px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.features__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+  color: #032b41;
+}
+
+.features__icon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.features__title {
+  font-size: 24px;
+  color: #032b41;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.features__sub--title {
+  font-size: 18px;
+  color: #394547;
+  font-weight: 300;
+}
+
+.statistics__heading {
+  font-size: 32px;
+  font-weight: 500;
+  color: #6b757b;
+  margin-bottom: 16px;
+}
+
+.statistics__heading:last-child {
+  margin-bottom: 0;
+}
+
+.statistics__heading--active {
+  color: #2bd97c;
+}
+
+.statistics__wrapper {
+  display: flex;
+  gap: 80px;
+  margin-bottom: 96px;
+}
+
+.statistics__wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.statistics__content--header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statistics__content--header-second {
+  align-items: flex-end;
+}
+
+.statistics__content--details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  background-color: #f1f6f4;
+  padding: 40px 24px;
+}
+
+.statistics__data {
+  display: flex;
+  gap: 16px;
+}
+
+.statistics__data--number {
+  color: #0365f2;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.statistics__data--title {
+  font-size: 20px;
+  font-weight: 300;
+  color: #394547;
+}
+
+.active {
+  color: #2bd97c;
+}
+
+@media (max-width: 768px) {
+  .features__wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .statistics__wrapper {
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .statistics__heading {
+    font-size: 24px;
+  }
+  .statistics__content--details-second {
+    order: 1;
+  }
+
+  .statistics__content--header-second {
+    align-items: flex-start;
+  }
+
+  .statistics__data--title {
+    font-size: 16px;
+  }
+  .features__title {
+    font-size: 20px;
+  }
+
+  .features__sub--title {
+    font-size: 14px;
+  }
+
+  .features__icon svg {
+    width: 48px;
+    height: 48px;
+  }
+}

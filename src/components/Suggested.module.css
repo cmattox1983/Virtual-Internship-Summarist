@@ -1,0 +1,132 @@
+.for-you__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #032b41;
+  margin-bottom: 16px;
+}
+
+.for-you__sub--title {
+  font-weight: 300;
+  color: #394547;
+  margin-bottom: 16px;
+}
+
+.for-you__recommended--books {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin: 16px 0 32px 0;
+}
+
+.for-you__recommended--books::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.for-you__recommended--books-link {
+  position: relative;
+  scroll-snap-align: start;
+  padding: 32px 12px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  max-width: 200px;
+  width: 100%;
+}
+
+.for-you__recommended--books-link:hover {
+  background: #e3e4e4;
+}
+
+.book__image--wrapper {
+  width: 172px;
+  height: 172px;
+  margin-bottom: 8px;
+}
+
+.book__image {
+  width: 100%;
+  height: 100%;
+}
+
+.recommended__book--title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #032b41;
+  margin-bottom: 8px;
+}
+
+.recommended__book--author {
+  font-size: 14px;
+  color: #6b757b;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.recommended__book--sub-title {
+  font-size: 14px;
+  color: #394547;
+  margin-bottom: 8px;
+}
+
+.recommended__book--details-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.recommended__book--details {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #6b757b;
+}
+
+.recommended__book--details-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.recommended__book--details-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.book__pill {
+  background-color: #032b41;
+  width: fit-content;
+  height: 18px;
+  padding: 0 8px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.card__skeleton-img {
+  width: 172px;
+  height: 258px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.card__skeleton-title {
+  width: 130px;
+  height: 16px;
+  margin-bottom: 4px;
+}
+
+.card__skeleton-subtitle {
+  width: 110px;
+  height: 16px;
+}

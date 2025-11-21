@@ -1,0 +1,40 @@
+.reviews__wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.review {
+  background-color: #fff3d7;
+  padding: 16px;
+  margin-bottom: 32px;
+  border-radius: 4px;
+  font-weight: 300;
+}
+
+.review__header {
+  color: #032b41;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.review__body {
+  color: #394547;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+.review__stars {
+  display: flex;
+}
+
+.review__stars svg {
+  width: 16px;
+  height: 16px;
+  fill: #0564f1;
+}
+
+.reviews__btn--wrapper {
+  display: flex;
+  justify-content: center;
+}

@@ -3,7 +3,16 @@
 import Link from "next/link";
 import styles from "./Settings.module.css";
 
-export default function SettingsBasic({ user }) {
+type UserType = {
+  email?: string | null;
+  isAnonymous?: boolean;
+};
+
+type Props = {
+  user: UserType;
+};
+
+export default function SettingsBasic({ user }: Props) {
   const displayEmail = user?.email ?? "N/A";
 
   return (

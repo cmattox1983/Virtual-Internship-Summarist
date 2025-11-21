@@ -9,11 +9,13 @@ import Skeleton from "@/UI/Skeleton";
 import { useLibrary } from "@/UI/useLibrary";
 
 type PlayerBook = {
+  id: string;
   title: string;
   summary: string;
   author: string;
   imageLink: string;
   audioLink: string;
+  subscriptionRequired: boolean;
 };
 
 type PlayerBookProps = {
@@ -82,7 +84,9 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
         `${(currentTime / duration) * 100}%`
       );
     }
-  }, [duration, setTimeProgress, audioRef, barRef]);
+  }, [duration]);
+
+  const playAnimationRef = useRef<number | null>(null);
 
   const startAnimation = useCallback(() => {
     if (audioRef.current && barRef.current && duration) {
@@ -92,9 +96,7 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
       };
       playAnimationRef.current = requestAnimationFrame(animate);
     }
-  }, [updateProgress, duration, audioRef, barRef]);
-
-  const playAnimationRef = useRef<number | null>(null);
+  }, [updateProgress, duration]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -113,7 +115,7 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
         cancelAnimationFrame(playAnimationRef.current);
       }
     };
-  }, [isPlaying, startAnimation, updateProgress, audioRef]);
+  }, [isPlaying, startAnimation, updateProgress]);
 
   const skipForward = () => {
     if (audioRef.current) {
@@ -151,118 +153,43 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
 
     if (!audio || !bar) return;
 
-    const updateProgress = () => {
+    const onTimeUpdate = () => {
       bar.value = String(audio.currentTime);
       progressFill();
 
       if (audio.currentTime >= audio.duration && audio.duration > 0) {
         if (!isFinished(book.id)) {
+          // ✅ pass the full book object here
           markFinished(book);
         }
       }
     };
 
-    audio.addEventListener("timeupdate", updateProgress);
+    audio.addEventListener("timeupdate", onTimeUpdate);
 
     return () => {
-      audio.removeEventListener("timeupdate", updateProgress);
+      audio.removeEventListener("timeupdate", onTimeUpdate);
     };
   }, [book, markFinished, isFinished]);
 
   if (showSkeleton) {
     return (
-      <>
-        <div className={styles.audio__wrapper} ref={wrapperRef}>
-          <div
-            className={`${styles["audio__track--wrapper"]} ${styles["audio__wrapper--div"]}`}
-          >
-            <figure className={styles["audio__track--image-mask"]}>
-              <figure className={styles["book__image--wrapper"]}>
-                <Skeleton className={styles["skeleton__book-image"]} />
-              </figure>
-            </figure>
-            <div className={styles["audio__track--details-wrapper"]}>
-              <div className={styles["audio__track--title"]}>
-                <Skeleton className={styles["skeleton__audio-track--text"]} />
-              </div>
-              <div className={styles["audio__track--author"]}>
-                <Skeleton className={styles["skeleton__audio-track--text"]} />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`${styles["audio__controls--wrapper"]} ${styles["audio__wrapper--div"]}`}
-          >
-            <div className={styles.audio__controls}>
-              <audio
-                src={book.audioLink}
-                ref={audioRef}
-                onLoadedMetadata={onLoadedMetadata}
-              />
-              <button
-                className={styles["audio__controls--btn"]}
-                onClick={skipBackward}
-              >
-                <MdReplay10 className={styles["audio__controls--btn-svg"]} />
-              </button>
-              <button
-                className={`${styles["audio__controls--btn"]} ${styles["audio__controls--btn-play"]}`}
-                onClick={() => setIsPlaying((prev) => !prev)}
-              >
-                {isPlaying ? (
-                  <FaCirclePause
-                    className={styles["audio__controls--btn-svg"]}
-                  />
-                ) : (
-                  <FaCirclePlay
-                    className={styles["audio__controls--btn-svg"]}
-                  />
-                )}
-              </button>
-              <button
-                className={styles["audio__controls--btn"]}
-                onClick={skipForward}
-              >
-                <MdForward10 className={styles["audio__controls--btn-svg"]} />
-              </button>
-            </div>
-          </div>
-
-          <div
-            className={`${styles["audio__progress--wrapper"]} ${styles["audio__wrapper--div"]}`}
-          >
-            <div className={styles.audio__time}>00:00</div>
-            <input
-              type="range"
-              className={styles["audio__progress--bar"]}
-              ref={barRef}
-              defaultValue={0}
-              onChange={handleProgressChange}
-              min="0"
-              max="204.048"
-            />
-            <div className={styles.audio__time}>00:00</div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <>
       <div className={styles.audio__wrapper} ref={wrapperRef}>
         <div
           className={`${styles["audio__track--wrapper"]} ${styles["audio__wrapper--div"]}`}
         >
           <figure className={styles["audio__track--image-mask"]}>
             <figure className={styles["book__image--wrapper"]}>
-              <img src={book.imageLink} alt="" className={styles.book__image} />
+              <Skeleton className={styles["skeleton__book-image"]} />
             </figure>
           </figure>
           <div className={styles["audio__track--details-wrapper"]}>
-            <div className={styles["audio__track--title"]}>{book.title}</div>
-            <div className={styles["audio__track--author"]}>{book.author}</div>
+            <div className={styles["audio__track--title"]}>
+              <Skeleton className={styles["skeleton__audio-track--text"]} />
+            </div>
+            <div className={styles["audio__track--author"]}>
+              <Skeleton className={styles["skeleton__audio-track--text"]} />
+            </div>
           </div>
         </div>
 
@@ -303,7 +230,7 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
         <div
           className={`${styles["audio__progress--wrapper"]} ${styles["audio__wrapper--div"]}`}
         >
-          <div className={styles.audio__time}>{formatTime(timeProgress)}</div>
+          <div className={styles.audio__time}>00:00</div>
           <input
             type="range"
             className={styles["audio__progress--bar"]}
@@ -313,9 +240,77 @@ export default function AudioPlayer({ book }: PlayerBookProps) {
             min="0"
             max="204.048"
           />
-          <div className={styles.audio__time}>{formatTime(duration)}</div>
+          <div className={styles.audio__time}>00:00</div>
         </div>
       </div>
-    </>
+    );
+  }
+
+  return (
+    <div className={styles.audio__wrapper} ref={wrapperRef}>
+      <div
+        className={`${styles["audio__track--wrapper"]} ${styles["audio__wrapper--div"]}`}
+      >
+        <figure className={styles["audio__track--image-mask"]}>
+          <figure className={styles["book__image--wrapper"]}>
+            <img src={book.imageLink} alt="" className={styles.book__image} />
+          </figure>
+        </figure>
+        <div className={styles["audio__track--details-wrapper"]}>
+          <div className={styles["audio__track--title"]}>{book.title}</div>
+          <div className={styles["audio__track--author"]}>{book.author}</div>
+        </div>
+      </div>
+
+      <div
+        className={`${styles["audio__controls--wrapper"]} ${styles["audio__wrapper--div"]}`}
+      >
+        <div className={styles.audio__controls}>
+          <audio
+            src={book.audioLink}
+            ref={audioRef}
+            onLoadedMetadata={onLoadedMetadata}
+          />
+          <button
+            className={styles["audio__controls--btn"]}
+            onClick={skipBackward}
+          >
+            <MdReplay10 className={styles["audio__controls--btn-svg"]} />
+          </button>
+          <button
+            className={`${styles["audio__controls--btn"]} ${styles["audio__controls--btn-play"]}`}
+            onClick={() => setIsPlaying((prev) => !prev)}
+          >
+            {isPlaying ? (
+              <FaCirclePause className={styles["audio__controls--btn-svg"]} />
+            ) : (
+              <FaCirclePlay className={styles["audio__controls--btn-svg"]} />
+            )}
+          </button>
+          <button
+            className={styles["audio__controls--btn"]}
+            onClick={skipForward}
+          >
+            <MdForward10 className={styles["audio__controls--btn-svg"]} />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`${styles["audio__progress--wrapper"]} ${styles["audio__wrapper--div"]}`}
+      >
+        <div className={styles.audio__time}>{formatTime(timeProgress)}</div>
+        <input
+          type="range"
+          className={styles["audio__progress--bar"]}
+          ref={barRef}
+          defaultValue={0}
+          onChange={handleProgressChange}
+          min="0"
+          max="204.048"
+        />
+        <div className={styles.audio__time}>{formatTime(duration)}</div>
+      </div>
+    </div>
   );
 }

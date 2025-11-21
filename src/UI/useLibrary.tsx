@@ -82,8 +82,9 @@ export function useLibrary() {
   );
 
   const markFinished = useCallback(
-    async (book: Book) => {
-      if (!user) return;
+    // loose param type so AudioPlayer can pass its PlayerBook
+    async (book: any) => {
+      if (!user || !book?.id) return;
 
       await setDoc(doc(db, "customers", user.uid, "finishedBooks", book.id), {
         ...book,

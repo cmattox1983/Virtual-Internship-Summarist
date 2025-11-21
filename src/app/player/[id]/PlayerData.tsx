@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 type PlayerBook = {
+  id: string;
   title: string;
   summary: string;
   author: string;

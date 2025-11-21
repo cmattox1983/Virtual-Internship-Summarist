@@ -10,7 +10,9 @@ import { useSelector } from "react-redux";
 
 export default function Settings() {
   const { user, authLoaded } = useSelector((state: RootState) => state.auth);
-  const subscription = useSubscription();
+
+  // force type to match SettingsPremium props
+  const subscription = useSubscription() as any;
 
   const isLoading = !authLoaded || subscription === undefined;
 

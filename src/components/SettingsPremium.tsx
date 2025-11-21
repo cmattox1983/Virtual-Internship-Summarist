@@ -2,7 +2,25 @@
 
 import styles from "./Settings.module.css";
 
-export default function SettingsPremium({ user, subscription }) {
+type SubscriptionType = {
+  items?: {
+    plan?: {
+      interval?: string | null;
+    };
+  }[];
+};
+
+type UserType = {
+  email?: string | null;
+  isAnonymous?: boolean;
+};
+
+type Props = {
+  user: UserType;
+  subscription: SubscriptionType | null;
+};
+
+export default function SettingsPremium({ user, subscription }: Props) {
   const displayEmail = user?.isAnonymous
     ? "guest@gmail.com"
     : user?.email ?? "N/A";

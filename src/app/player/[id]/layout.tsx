@@ -1,4 +1,5 @@
 "use client";
+
 import Search from "@/components/Search";
 import Sidebar from "@/components/Sidebar";
 import React, { createContext, useState } from "react";
@@ -10,7 +11,11 @@ export const FontContext = createContext({
   setFontSize: (_: FontSize) => {},
 });
 
-export default function PlayerLayout({ children }: { children: React.ReactNode }) {
+export default function PlayerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [fontSize, setFontSize] = useState<FontSize>("sm");
 
   return (

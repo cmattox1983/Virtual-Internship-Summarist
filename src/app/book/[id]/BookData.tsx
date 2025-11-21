@@ -39,9 +39,7 @@ type BookId = {
   audioLink: string;
 };
 
-type BookProps = { book: BookId };
-
-export default function BookData({ book }: BookProps) {
+export default function BookData({ book }: { book: BookId }) {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const router = useRouter();
@@ -57,8 +55,8 @@ export default function BookData({ book }: BookProps) {
 
   const [showSkeleton, setShowSkeleton] = useState(true);
 
-  type FontSize = "sm" | "med" | "lg" | "xl";
-  const handleFontChange = (size: FontSize) => {};
+  // required by Sidebar, but not used on this page
+  const handleFontChange = () => {};
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSkeleton(false), 400);
@@ -96,9 +94,7 @@ export default function BookData({ book }: BookProps) {
       return;
     }
 
-    if (subscription === undefined) {
-      return;
-    }
+    if (subscription === undefined) return;
 
     if (subscription === null && book.subscriptionRequired) {
       router.push("/choose-plan");

@@ -15,12 +15,10 @@ import {
   FaCircleQuestion,
   FaArrowRightToBracket,
 } from "react-icons/fa6";
-
 import { useDispatch, useSelector } from "react-redux";
 import { open as openAuth } from "@/Redux/authModalSlice";
 import { close as closeSideBar } from "@/Redux/sideBarSlice";
 import { RootState } from "@/Redux/Store";
-
 import FontControls from "./FontControls";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/auth";
@@ -61,13 +59,14 @@ const BOTTOM_LINKS: NavItem[] = [
   },
 ];
 
-export type FontSize = "sm" | "med" | "lg" | "xl";
+type FontSize = "sm" | "med" | "lg" | "xl";
 
-export default function Sidebar({
-  onChangeFont,
-}: {
+// 👇 make onChangeFont OPTIONAL
+type SidebarProps = {
   onChangeFont?: (size: FontSize) => void;
-}) {
+};
+
+export default function Sidebar({ onChangeFont }: SidebarProps) {
   const pathname = usePathname();
   const dispatch = useDispatch();
 
@@ -111,7 +110,7 @@ export default function Sidebar({
         return;
       }
 
-      if (window.innerWidth <= 768) {
+      if (typeof window !== "undefined" && window.innerWidth <= 768) {
         dispatch(closeSideBar());
       }
     };
@@ -156,7 +155,6 @@ export default function Sidebar({
         }`}
         onClick={() => dispatch(closeSideBar())}
       ></div>
-
       <div
         className={`${styles.sidebar} ${
           isOpen ? styles["sidebar--opened"] : ""
@@ -176,12 +174,11 @@ export default function Sidebar({
         <div className={styles.sidebar__wrapper}>
           <div className={styles.sidebar__top}>
             {TOP_LINKS.map(renderItem)}
-
+            {/* Only show font controls on /player AND when a handler is provided */}
             {pathname.startsWith("/player/") && onChangeFont ? (
               <FontControls onChangeFont={onChangeFont} />
             ) : null}
           </div>
-
           <div className={styles.sidebar__bottom}>
             {BOTTOM_LINKS.map(renderItem)}
           </div>

@@ -15,10 +15,12 @@ import {
   FaCircleQuestion,
   FaArrowRightToBracket,
 } from "react-icons/fa6";
+
 import { useDispatch, useSelector } from "react-redux";
 import { open as openAuth } from "@/Redux/authModalSlice";
 import { close as closeSideBar } from "@/Redux/sideBarSlice";
 import { RootState } from "@/Redux/Store";
+
 import FontControls from "./FontControls";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/auth";
@@ -59,23 +61,20 @@ const BOTTOM_LINKS: NavItem[] = [
   },
 ];
 
-type FontSize = "sm" | "med" | "lg" | "xl";
+export type FontSize = "sm" | "med" | "lg" | "xl";
 
 export default function Sidebar({
   onChangeFont,
 }: {
-  onChangeFont: (size: FontSize) => void;
+  onChangeFont?: (size: FontSize) => void;
 }) {
   const pathname = usePathname();
-
   const dispatch = useDispatch();
 
   const isOpen = useSelector((state: RootState) => state.sideBar.isOpen);
-
   const user = useSelector((state: RootState) => state.auth.user);
 
   const isLoggedIn = !!user;
-
   const displayedLabel = isLoggedIn ? "Logout" : "Login";
 
   useEffect(() => {
@@ -97,7 +96,6 @@ export default function Sidebar({
       !!showActive && (pathname === href || pathname.startsWith(href + "/"));
 
     const isLogin = href === "/login";
-
     const displayed = isLogin ? displayedLabel : label;
 
     const handleClick = (e: React.MouseEvent) => {
@@ -158,6 +156,7 @@ export default function Sidebar({
         }`}
         onClick={() => dispatch(closeSideBar())}
       ></div>
+
       <div
         className={`${styles.sidebar} ${
           isOpen ? styles["sidebar--opened"] : ""
@@ -177,10 +176,12 @@ export default function Sidebar({
         <div className={styles.sidebar__wrapper}>
           <div className={styles.sidebar__top}>
             {TOP_LINKS.map(renderItem)}
-            {pathname.startsWith("/player/") ? (
+
+            {pathname.startsWith("/player/") && onChangeFont ? (
               <FontControls onChangeFont={onChangeFont} />
             ) : null}
           </div>
+
           <div className={styles.sidebar__bottom}>
             {BOTTOM_LINKS.map(renderItem)}
           </div>
